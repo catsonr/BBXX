@@ -1,3 +1,5 @@
+#include <stdio.h>
+
 #include "BBXX.h"
 
 SDL_AppResult BBXX::init()
@@ -16,6 +18,8 @@ SDL_AppResult BBXX::init()
         printf("[BBXX::init] failed to create window!\n%s\n", SDL_GetError());
         return SDL_APP_FAILURE;
     }
+    
+    printf("[BBXX::init] initialization successful!\n");
 
     return SDL_APP_CONTINUE;
 }

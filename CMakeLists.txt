@@ -15,4 +15,8 @@ add_subdirectory(vendored/SDL EXCLUDE_FROM_ALL)
 file(GLOB_RECURSE SOURCE_FILES CONFIGURE_DEPENDS "src/*.cpp")
 add_executable(bbxx ${SOURCE_FILES})
 
+if(EMSCRIPTEN)
+    set_target_properties(bbxx PROPERTIES SUFFIX ".html")
+endif()
+
 target_link_libraries(bbxx PRIVATE SDL3::SDL3)
