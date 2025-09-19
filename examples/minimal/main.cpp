@@ -2,7 +2,7 @@
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_main.h>
 
-#include "bbxx/BBXX.h"
+#include <bbxx/BBXX.h>
 BBXX bbxx;
 
 /* This function runs once at startup. */

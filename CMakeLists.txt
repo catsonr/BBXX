@@ -5,18 +5,14 @@ set(CMAKE_C_STANDARD 11)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# set the output directory for built objects.
-# This makes sure that the dynamic library goes into the build directory automatically.
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/$<CONFIGURATION>")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/$<CONFIGURATION>")
 
 add_subdirectory(vendored/SDL EXCLUDE_FROM_ALL)
 
 file(GLOB_RECURSE SOURCE_FILES CONFIGURE_DEPENDS "src/*.cpp")
-add_executable(bbxx ${SOURCE_FILES})
+add_library(bbxx ${SOURCE_FILES})
 
-if(EMSCRIPTEN)
-    set_target_properties(bbxx PROPERTIES SUFFIX ".html")
-endif()
+target_include_directories(bbxx PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
-target_link_libraries(bbxx PRIVATE SDL3::SDL3)
+target_link_libraries(bbxx PUBLIC SDL3::SDL3)

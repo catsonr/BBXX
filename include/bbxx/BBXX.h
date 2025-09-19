@@ -14,7 +14,7 @@ struct BBXX
     const int WINDOW_HEIGHT_INITIAL { 720 };
     const int WINDOW_WIDTH_MIN  { 800 };
     const int WINDOW_HEIGHT_MIN { 600 };
-    const char* WINDOW_TITLE { "BBXX game engine :)" };
+    const char* WINDOW_TITLE { "BBXX game engine <3" };
     SDL_WindowFlags windowflags =
         //SDL_WINDOW_FULLSCREEN |
         //SDL_WINDOW_ALWAYS_ON_TOP |

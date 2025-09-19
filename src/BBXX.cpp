@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-#include "BBXX.h"
+#include <bbxx/BBXX.h>
 
 SDL_AppResult BBXX::init()
 {
