@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-#include <bbxx/BBXX.h>
+#include <BBXX/BBXX.h>
 
 SDL_AppResult BBXX::init()
 {
@@ -12,12 +12,9 @@ SDL_AppResult BBXX::init()
         return SDL_APP_FAILURE;
     }
     
-    window = SDL_CreateWindow(WINDOW_TITLE, WINDOW_WIDTH_INITIAL, WINDOW_HEIGHT_INITIAL, windowflags);
-    if( !window )
-    {
-        printf("[BBXX::init] failed to create window!\n%s\n", SDL_GetError());
-        return SDL_APP_FAILURE;
-    }
+    // initialize state classes 
+    if( !windowstate.init() ) return SDL_APP_FAILURE;
+    if( !glstate.init(windowstate.window) ) return SDL_APP_FAILURE;
     
     printf("[BBXX::init] initialization successful!\n");
 
@@ -31,7 +28,7 @@ void BBXX::iterate()
 
 void BBXX::draw()
 {
-
+    glstate.draw(windowstate.window);
 }
 
 SDL_AppResult BBXX::handle_event(const SDL_Event* event)
