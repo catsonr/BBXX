@@ -7,6 +7,7 @@
 #include <BBXX/GLState.h>
 #include <BBXX/InputState.h>
 #include <BBXX/ImGuiState.h>
+#include <BBXX/AudioState.h>
 
 struct BBXX
 {
@@ -16,6 +17,7 @@ struct BBXX
     GLState glstate;
     InputState inputstate;
     ImGuiState imguistate;
+    AudioState audiostate;
     
     /* PUBLIC METHODS */
 

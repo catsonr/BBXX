@@ -13,6 +13,13 @@ file(GLOB_RECURSE SOURCE_FILES CONFIGURE_DEPENDS "src/*.cpp")
 add_library(BBXX ${SOURCE_FILES})
 target_include_directories(BBXX PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
+# uncomment if using audio worklets
+#if(EMSCRIPTEN)
+#   add_compile_options(-matomics -mbulk-memory -pthread)
+#    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -pthread")
+#    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
+#endif()
+
 # SDL3
 add_subdirectory(vendored/SDL EXCLUDE_FROM_ALL)
 target_link_libraries(BBXX PUBLIC SDL3::SDL3)
@@ -37,5 +44,28 @@ target_include_directories(imgui PUBLIC vendored/imgui vendored/imgui/backends)
 target_link_libraries(imgui PRIVATE SDL3::SDL3 glad)
 target_link_libraries(BBXX PUBLIC imgui)
 
+# miniaudio
+add_library(miniaudio INTERFACE)
+target_include_directories(miniaudio INTERFACE vendored/miniaudio)
+target_link_libraries(BBXX PUBLIC miniaudio)
+
 # example targets
 add_subdirectory(examples)
+
+# emscripten flags
+if(EMSCRIPTEN)
+    set_target_properties(minimal PROPERTIES SUFFIX ".html")
+    
+    target_link_options(minimal PRIVATE
+        "-sMIN_WEBGL_VERSION=2"
+        "-sMAX_WEBGL_VERSION=2"
+        #"-sALLOW_MEMORY_GROWTH=1"
+        
+        # audio worklets are better, but they cannot simply be statically hosted. so they'll be ignored for now
+        #"-sAUDIO_WORKLET=1"
+        #"-sWASM_WORKERS=1"
+        #"-sASYNCIFY"
+        #"-pthread"
+    )
+    
+endif()
