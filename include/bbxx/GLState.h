@@ -12,7 +12,7 @@ struct GLState
     /* PUBLIC METHODS */
 
     bool init(SDL_Window* window);
-    void draw(SDL_Window* window);
+    void draw(SDL_Window* window, int w, int h);
 }; // GLState
 
 #endif // GLState

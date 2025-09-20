@@ -24,9 +24,14 @@ struct WindowState
         SDL_WINDOW_MOUSE_FOCUS
     ;
     
+    int w, h;
+    int w_l, h_l;
+    float ds;
+    
     /* PUBLIC METHODS */
 
     bool init();
+    void iterate();
 }; // WindowState
 
 #endif // WindowState

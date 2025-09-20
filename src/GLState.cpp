@@ -36,11 +36,9 @@ bool GLState::init(SDL_Window* window)
     return true;
 }
 
-void GLState::draw(SDL_Window* window)
+void GLState::draw(SDL_Window* window, int w, int h)
 {
+    glViewport(0, 0, w, h);
     glClearColor(0.2, 0.2, 1.0, 1.0);
-    
     glClear(GL_COLOR_BUFFER_BIT);
-
-    SDL_GL_SwapWindow(window);
 }

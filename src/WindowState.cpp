@@ -15,3 +15,10 @@ bool WindowState::init()
 
     return true;
 }
+
+void WindowState::iterate()
+{
+    SDL_GetWindowSizeInPixels(window, &w, &h);
+    SDL_GetWindowSize(window, &w_l, &h_l);
+    ds = SDL_GetWindowDisplayScale(window);
+}

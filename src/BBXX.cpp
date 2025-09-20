@@ -15,6 +15,7 @@ SDL_AppResult BBXX::init()
     // initialize state classes 
     if( !windowstate.init() ) return SDL_APP_FAILURE;
     if( !glstate.init(windowstate.window) ) return SDL_APP_FAILURE;
+    if( !imguistate.init(windowstate.window, glstate.gl) ) return SDL_APP_FAILURE;
     
     printf("[BBXX::init] initialization successful!\n");
 
@@ -28,7 +29,10 @@ void BBXX::iterate()
 
 void BBXX::draw()
 {
-    glstate.draw(windowstate.window);
+    glstate.draw(windowstate.window, windowstate.w, windowstate.h);
+    imguistate.draw();
+
+    SDL_GL_SwapWindow(windowstate.window);
 }
 
 SDL_AppResult BBXX::handle_event(const SDL_Event* event)
@@ -39,7 +43,8 @@ SDL_AppResult BBXX::handle_event(const SDL_Event* event)
         return SDL_APP_SUCCESS;
     }
     
-    inputstate.handle_event(event);
+    inputstate.handle_event(event); // should be called first
+    imguistate.handle_event(event);
 
     return SDL_APP_CONTINUE;
 }
