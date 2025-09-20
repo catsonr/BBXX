@@ -66,6 +66,8 @@ if(EMSCRIPTEN)
         #"-sWASM_WORKERS=1"
         #"-sASYNCIFY"
         #"-pthread"
+        
+        "-sWASMFS"
     )
     
 endif()

@@ -17,9 +17,10 @@ SDL_AppResult BBXX::init()
     if( !glstate.init(windowstate.window) ) return SDL_APP_FAILURE;
     if( !imguistate.init(windowstate.window, glstate.gl) ) return SDL_APP_FAILURE;
     if( !audiostate.init() ) return SDL_APP_FAILURE;
+    if( !filesystemstate.init() ) return SDL_APP_FAILURE;
     
     printf("[BBXX::init] initialization successful!\n");
-
+    
     return SDL_APP_CONTINUE;
 }
 

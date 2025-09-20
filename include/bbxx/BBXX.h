@@ -8,6 +8,7 @@
 #include <BBXX/InputState.h>
 #include <BBXX/ImGuiState.h>
 #include <BBXX/AudioState.h>
+#include <BBXX/FileSystemState.h>
 
 struct BBXX
 {
@@ -18,6 +19,7 @@ struct BBXX
     InputState inputstate;
     ImGuiState imguistate;
     AudioState audiostate;
+    FileSystemState filesystemstate;
     
     /* PUBLIC METHODS */
 

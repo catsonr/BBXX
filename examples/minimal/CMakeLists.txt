@@ -8,3 +8,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_executable(minimal main.cpp)
 target_link_libraries(minimal PRIVATE BBXX)
+
+if(EMSCRIPTEN)
+    target_link_options(minimal PRIVATE --preload-file ${CMAKE_CURRENT_SOURCE_DIR}/assets@assets)
+endif()
