@@ -5,6 +5,7 @@
 
 #include <BBXX/WindowState.h>
 #include <BBXX/GLState.h>
+#include <BBXX/InputState.h>
 
 struct BBXX
 {
@@ -12,6 +13,7 @@ struct BBXX
 
     WindowState windowstate;
     GLState glstate;
+    InputState inputstate;
     
     /* PUBLIC METHODS */
 

@@ -2,10 +2,12 @@
 
 there are a number of features planned for **BBXX**. they are listed below in rough chronological order
 
-- [ ] opengl & opengl ES support
+- [x] opengl & opengl ES support
+        - completed 9.19.25
 - [ ] game code hot reloading
 - [ ] frame timing system
-- [ ] input handling
+- [x] input handling
+        - completed 9.19.25
 - [ ] audio playback
 - [ ] accurate text rendering
 - [ ] some screen state system

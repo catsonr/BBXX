@@ -23,5 +23,4 @@ target_include_directories(glad PUBLIC vendored/glad/include)
 target_link_libraries(BBXX PUBLIC glad)
 
 # example targets
-# cmake --build build --target minimal
 add_subdirectory(examples)

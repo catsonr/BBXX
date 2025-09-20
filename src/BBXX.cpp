@@ -23,7 +23,7 @@ SDL_AppResult BBXX::init()
 
 void BBXX::iterate()
 {
-
+    inputstate.iterate(); // should be called last
 }
 
 void BBXX::draw()
@@ -38,6 +38,8 @@ SDL_AppResult BBXX::handle_event(const SDL_Event* event)
         printf("[BBXX::handle_event] window close requested!\n");
         return SDL_APP_SUCCESS;
     }
+    
+    inputstate.handle_event(event);
 
     return SDL_APP_CONTINUE;
 }
