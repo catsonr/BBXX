@@ -49,6 +49,9 @@ add_library(miniaudio INTERFACE)
 target_include_directories(miniaudio INTERFACE vendored/miniaudio)
 target_link_libraries(BBXX PUBLIC miniaudio)
 
+# glm
+target_include_directories(BBXX PUBLIC vendored/glm)
+
 # example targets
 add_subdirectory(examples)
 
