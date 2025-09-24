@@ -52,6 +52,10 @@ target_link_libraries(BBXX PUBLIC miniaudio)
 # glm
 target_include_directories(BBXX PUBLIC vendored/glm)
 
+# efsw
+add_subdirectory(vendored/efsw EXCLUDE_FROM_ALL)
+target_link_libraries(BBXX PUBLIC efsw)
+
 # example targets
 add_subdirectory(examples)
 

@@ -7,3 +7,6 @@
 [submodule "vendored/glm"]
 	path = vendored/glm
 	url = git@github.com:g-truc/glm.git
+[submodule "vendored/efsw"]
+	path = vendored/efsw
+	url = https://github.com/SpartanJ/efsw.git

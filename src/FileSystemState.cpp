@@ -1,7 +1,5 @@
 #include <BBXX/FileSystemState.h>
 
-#include <stdio.h>
-
 bool FileSystemState::init()
 {
     assets_path = base_path / assets_dir;
@@ -9,6 +7,11 @@ bool FileSystemState::init()
     if( !fs::exists(assets_path) ) {
         printf("[FileSystemState::init] could not find assets folder at '%s'! (does it exist?)\n", assets_path.string().c_str());
         return false;
+    }
+    
+    if( live ) {
+        assets_watchID = filewatcher.addWatch(assets_path.string(), &assetslistener, true);
+        filewatcher.watch();
     }
     
     return true;
@@ -28,4 +31,9 @@ std::string FileSystemState::read_file(const fs::path& path)
     std::ostringstream ss;
     ss << in.rdbuf();
     return ss.str();
+}
+
+void FileSystemState::cleanup()
+{
+    filewatcher.removeWatch(assets_watchID);
 }

@@ -54,5 +54,7 @@ SDL_AppResult BBXX::handle_event(const SDL_Event* event)
 
 void BBXX::quit()
 {
+    filesystemstate.cleanup();
+
     printf("[BBXX::quit] quitting app ...\n");
 }
