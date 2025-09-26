@@ -65,18 +65,32 @@ struct FileSystemState
         functions are relative to this path
     */
     fs::path assets_path;
-    
-    /* whether or not BBXX listens for any file changes in assets/ */
-    bool live { true };
 
     /* PUBLIC METHODS */
     
     bool init();
-    std::string read_file(const fs::path& path);
+    std::string read_file(const fs::path& path) const;
+    /*
+        returns the absolute path to a file in the assets folder
+        e.g.:
+            if you have some 'assets/shaders/shader.glsl'
+            call get_path("shaders/shader.glsl")
+                -> returns "/Users/user/path/to/assets/shaders/shader.glsl"
+    */
+    fs::path get_path(const char* assets_path) const;
     void cleanup();
 
-    /* EFSW stuff */
 private:
+    
+    /* PRIVATE MEMBERS */
+    
+    /*
+        whether or not BBXX listens for any file changes in assets/
+        note that this will always be disabled for web builds, no matter the value of live
+    */
+    bool live { true };
+
+    /* EFSW stuff */
     efsw::FileWatcher filewatcher;
     AssetsListener assetslistener;
     efsw::WatchID assets_watchID;

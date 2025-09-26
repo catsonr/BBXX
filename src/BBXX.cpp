@@ -14,10 +14,10 @@ SDL_AppResult BBXX::init()
     
     // initialize state classes 
     if( !windowstate.init() ) return SDL_APP_FAILURE;
-    if( !glstate.init(windowstate.window) ) return SDL_APP_FAILURE;
+    if( !filesystemstate.init() ) return SDL_APP_FAILURE;
+    if( !glstate.init(windowstate.window, filesystemstate) ) return SDL_APP_FAILURE;
     if( !imguistate.init(windowstate.window, glstate.gl) ) return SDL_APP_FAILURE;
     if( !audiostate.init() ) return SDL_APP_FAILURE;
-    if( !filesystemstate.init() ) return SDL_APP_FAILURE;
     
     printf("[BBXX::init] initialization successful!\n");
     
@@ -26,7 +26,9 @@ SDL_AppResult BBXX::init()
 
 void BBXX::iterate()
 {
+    windowstate.iterate();
     audiostate.iterate();
+
     inputstate.iterate(); // should be called last
 }
 

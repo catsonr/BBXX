@@ -6,9 +6,11 @@
 #include <GLES3/gl3.h>
 #endif
 
+#include <glm/ext.hpp>
+
 #include <stdio.h>
 
-bool GLState::init(SDL_Window* window)
+bool GLState::init(SDL_Window* window, const FileSystemState& filesystemstate)
 {
 #ifndef __EMSCRIPTEN__
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
@@ -33,12 +35,39 @@ bool GLState::init(SDL_Window* window)
     }
 #endif
 
+    if( !shaderprogram.init(filesystemstate, "shaders/shaderprogram.vert", "shaders/shaderprogram.frag") ) {
+        printf("[GLState::init] failed to initialize shader program!\n");
+        return false;
+    }
+
     return true;
 }
 
 void GLState::draw(SDL_Window* window, int w, int h)
 {
+    set_mVP(w, h);
     glViewport(0, 0, w, h);
     glClearColor(0.2, 0.2, 1.0, 1.0);
     glClear(GL_COLOR_BUFFER_BIT);
+    
+    shaderprogram.set_uniform("u_mVP", m_VP);
+
+    m_model = glm::rotate(m_model, 0.0001f, glm::vec3(0, 0, 1));
+    shaderprogram.set_uniform("u_mModel", m_model);
+
+    glm::vec2 iResolution { w, h };
+    shaderprogram.set_uniform("u_iResolution", iResolution);
+
+    shaderprogram.draw();
+}
+
+void GLState::set_mVP(int w, int h)
+{
+    camera_aspect_ratio = static_cast<float>(w) / h;
+    
+    m_view = glm::lookAt(camera_pos, camera_target, camera_up);
+    // TODO: use ortho !
+    m_proj = glm::perspective(glm::radians(camera_fov), camera_aspect_ratio, camera_near, camera_far);
+    
+    m_VP = m_proj * m_view;
 }

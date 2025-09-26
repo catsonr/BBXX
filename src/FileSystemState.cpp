@@ -9,15 +9,17 @@ bool FileSystemState::init()
         return false;
     }
     
+#ifndef __EMSCRIPTEN__
     if( live ) {
         assets_watchID = filewatcher.addWatch(assets_path.string(), &assetslistener, true);
         filewatcher.watch();
     }
+#endif
     
     return true;
 }
 
-std::string FileSystemState::read_file(const fs::path& path)
+std::string FileSystemState::read_file(const fs::path& path) const
 {
     fs::path full_path = assets_path / path;
 
@@ -31,6 +33,11 @@ std::string FileSystemState::read_file(const fs::path& path)
     std::ostringstream ss;
     ss << in.rdbuf();
     return ss.str();
+}
+
+fs::path FileSystemState::get_path(const char* path) const
+{
+    return assets_path / path;
 }
 
 void FileSystemState::cleanup()
