@@ -1,10 +1,6 @@
 #include <BBXX/GLState.h>
 
-#ifndef __EMSCRIPTEN__
-#include <glad/gl.h>
-#else
-#include <GLES3/gl3.h>
-#endif
+#include <BBXX/gl.h>
 
 #include <glm/ext.hpp>
 

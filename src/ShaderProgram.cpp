@@ -6,8 +6,11 @@
 
 bool ShaderProgram::init(const FileSystemState& filesystemstate, const fs::path& vertex_shader_path, const fs::path& fragment_shader_path)
 {
-    const std::string vertex_src   = filesystemstate.read_file(vertex_shader_path).c_str();
-    const std::string fragment_src = filesystemstate.read_file(fragment_shader_path).c_str();
+    std::string vertex_src   = filesystemstate.read_file(vertex_shader_path).c_str();
+    std::string fragment_src = filesystemstate.read_file(fragment_shader_path).c_str();
+    
+    vertex_src = fix_headers(vertex_src);
+    fragment_src = fix_headers(fragment_src);
     
     program = create_program(vertex_src.c_str(), fragment_src.c_str());
     if( program == GL_FALSE) {
@@ -36,6 +39,20 @@ void ShaderProgram::draw()
     glBindVertexArray(vao);
     
     glDrawArrays(GL_TRIANGLES, 0, unit_quad.size() / stride);
+}
+
+std::string ShaderProgram::fix_headers(std::string& SHADERSOURCECODE)
+{
+#ifdef __EMSCRIPTEN__
+    const std::string old_header = "#version 330 core";
+    const std::string new_header = "#version 300 es\nprecision highp float;";
+    size_t pos = SHADERSOURCECODE.find(old_header);
+    if( pos != std::string::npos ) {
+        SHADERSOURCECODE.replace(pos, old_header.size(), new_header);
+    }
+#endif
+    
+    return SHADERSOURCECODE;
 }
 
 GLuint ShaderProgram::compile_shader(GLenum type, const char* SHADERSOURCECODE)

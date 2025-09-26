@@ -3,7 +3,7 @@
 
 #include <BBXX/FileSystemState.h>
 
-#include <glad/gl.h>
+#include <BBXX/gl.h>
 
 #include <glm/glm.hpp>
 
@@ -30,6 +30,16 @@ struct ShaderProgram
     bool init(const FileSystemState& filesystemstate, const fs::path& vertex_shader_path, const fs::path& fragment_shader_path);
     void draw();
     
+    /* 
+       sets the given shader source code to have the correct version header, depending on platform target
+       all shaders are assumed to start with:
+           #version 330 core
+
+       if runnning on web, the header will be replaced with:
+           #version 300 es
+           precision highp float;
+    */
+    std::string fix_headers(std::string& SHADERSOURCECODE);
     /*
         returns the shader GLuint on success, and GL_FALSE on failure
         if there was an error compiling, error message will be printed
