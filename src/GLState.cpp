@@ -6,7 +6,7 @@
 
 #include <stdio.h>
 
-bool GLState::init(SDL_Window* window, const FileSystemState& filesystemstate)
+bool GLState::init(SDL_Window* window, FileSystemState& filesystemstate)
 {
 #ifndef __EMSCRIPTEN__
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
@@ -31,7 +31,7 @@ bool GLState::init(SDL_Window* window, const FileSystemState& filesystemstate)
     }
 #endif
 
-    if( !shaderprogram.init(filesystemstate, "shaders/shaderprogram.vert", "shaders/shaderprogram.frag") ) {
+    if( !shaderprogram.init(filesystemstate) ) {
         printf("[GLState::init] failed to initialize shader program!\n");
         return false;
     }
@@ -47,8 +47,6 @@ void GLState::draw(SDL_Window* window, int w, int h)
     glClear(GL_COLOR_BUFFER_BIT);
     
     shaderprogram.set_uniform("u_mVP", m_VP);
-
-    m_model = glm::rotate(m_model, 0.0001f, glm::vec3(0, 0, 1));
     shaderprogram.set_uniform("u_mModel", m_model);
 
     glm::vec2 iResolution { w, h };

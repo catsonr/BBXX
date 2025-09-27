@@ -28,9 +28,9 @@ struct GLState
     /* PUBLIC METHODS */
     
     glm::mat4 m_model { 1.0 };
-    ShaderProgram shaderprogram;
+    ShaderProgram shaderprogram { "shaders/shaderprogram.vert", "shaders/shaderprogram.frag" };
 
-    bool init(SDL_Window* window, const FileSystemState& filesystemstate);
+    bool init(SDL_Window* window, FileSystemState& filesystemstate);
     void draw(SDL_Window* window, int w, int h);
     /* sets view-projection matrix based on current camera settings, as well as screen width and height (for aspect ratio) */
     void set_mVP(int w, int h);

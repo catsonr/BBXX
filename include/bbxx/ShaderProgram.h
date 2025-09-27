@@ -21,13 +21,24 @@ const int stride = 3;
 
 struct ShaderProgram
 {
+    /* CONSTRUCTORS */
+    
+    ShaderProgram(const char* vertex_assets_path, const char* fragment_assets_path) :
+        vertex_assets_path(vertex_assets_path),
+        fragment_assets_path(fragment_assets_path)
+    {}
+
     /* PUBLIC MEMBERS */
 
+    const fs::path vertex_assets_path, fragment_assets_path;
     GLuint program { 0 };
     GLuint vao, vbo;
+    bool reload_requested { false };
 
     /* PUBLIC METHODS */
-    bool init(const FileSystemState& filesystemstate, const fs::path& vertex_shader_path, const fs::path& fragment_shader_path);
+    bool init(FileSystemState& filesystemstate);
+    void request_reload() { reload_requested = true; }
+    bool reload(const FileSystemState& filesystemstate);
     void draw();
     
     /* 

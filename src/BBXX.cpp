@@ -30,12 +30,17 @@ void BBXX::iterate()
     audiostate.iterate();
 
     inputstate.iterate(); // should be called last
+    
+    if( glstate.shaderprogram.reload_requested )
+        if( glstate.shaderprogram.reload(filesystemstate) ) {
+            printf("[BBXX::iterate] shader program reloaded!\n");
+        }
 }
 
 void BBXX::draw()
 {
     glstate.draw(windowstate.window, windowstate.w, windowstate.h);
-    imguistate.draw();
+    //imguistate.draw();
 
     SDL_GL_SwapWindow(windowstate.window);
 }

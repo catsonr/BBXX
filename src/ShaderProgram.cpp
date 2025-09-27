@@ -4,8 +4,11 @@
 
 #include <stdio.h>
 
-bool ShaderProgram::init(const FileSystemState& filesystemstate, const fs::path& vertex_shader_path, const fs::path& fragment_shader_path)
+bool ShaderProgram::init(FileSystemState& filesystemstate)
 {
+    const fs::path vertex_shader_path   = filesystemstate.get_path(vertex_assets_path);
+    const fs::path fragment_shader_path = filesystemstate.get_path(fragment_assets_path);
+
     std::string vertex_src   = filesystemstate.read_file(vertex_shader_path).c_str();
     std::string fragment_src = filesystemstate.read_file(fragment_shader_path).c_str();
     
@@ -29,6 +32,42 @@ bool ShaderProgram::init(const FileSystemState& filesystemstate, const fs::path&
     glVertexAttribPointer(0, stride, GL_FLOAT, GL_FALSE, stride * sizeof(float), (void*)0);
     
     glBindVertexArray(0);
+    
+    LiveFile fragmentshader_livefile {
+        fragment_shader_path,
+        [this]() {
+            printf("fragment shader changed!!! requesting reload ...\n");
+            this->request_reload();
+        }
+    };
+    
+    if( !filesystemstate.watching_file(fragment_shader_path) )
+        filesystemstate.watch_file(fragmentshader_livefile);
+    
+    return true;
+}
+
+bool ShaderProgram::reload(const FileSystemState& filesystemstate)
+{
+    const fs::path vertex_shader_path   = filesystemstate.get_path(vertex_assets_path);
+    const fs::path fragment_shader_path = filesystemstate.get_path(fragment_assets_path);
+    
+    std::string vertex_src   = filesystemstate.read_file(vertex_shader_path).c_str();
+    std::string fragment_src = filesystemstate.read_file(fragment_shader_path).c_str();
+    
+    vertex_src = fix_headers(vertex_src);
+    fragment_src = fix_headers(fragment_src);
+    
+    GLuint new_program = create_program(vertex_src.c_str(), fragment_src.c_str());
+    if( new_program == GL_FALSE) {
+        printf("[ShaderProgram::reload] failed to reload!\n");
+        return false;
+    }
+    
+    glDeleteProgram(program);
+
+    program = new_program;
+    reload_requested = false;
 
     return true;
 }
@@ -116,7 +155,7 @@ bool ShaderProgram::set_uniform(const char* name, int value)
     glUseProgram(program);
     GLint location = glGetUniformLocation(program, name);
     if( location == -1 ) {
-        printf("[ShaderProgram::set_uniform] failed to find uniform int '%s'\n", name);
+        //printf("[ShaderProgram::set_uniform] failed to find uniform int '%s'\n", name);
         return false;
     }
 
@@ -129,7 +168,7 @@ bool ShaderProgram::set_uniform(const char* name, float value)
     glUseProgram(program);
     GLint location = glGetUniformLocation(program, name);
     if( location == -1 ) {
-        printf("[ShaderProgram::set_uniform] failed to find uniform float '%s'\n", name);
+        //printf("[ShaderProgram::set_uniform] failed to find uniform float '%s'\n", name);
         return false;
     }
 
@@ -142,7 +181,7 @@ bool ShaderProgram::set_uniform(const char* name, glm::vec2 vector)
     glUseProgram(program);
     GLint location = glGetUniformLocation(program, name);
     if( location == -1 ) {
-        printf("[ShaderProgram::set_uniform] failed to find uniform vec2 '%s'\n", name);
+        //printf("[ShaderProgram::set_uniform] failed to find uniform vec2 '%s'\n", name);
         return false;
     }
 
@@ -155,7 +194,7 @@ bool ShaderProgram::set_uniform(const char* name, glm::vec3 vector)
     glUseProgram(program);
     GLint location = glGetUniformLocation(program, name);
     if( location == -1 ) {
-        printf("[ShaderProgram::set_uniform] failed to find uniform vec3 '%s'\n", name);
+        //printf("[ShaderProgram::set_uniform] failed to find uniform vec3 '%s'\n", name);
         return false;
     }
 
@@ -168,7 +207,7 @@ bool ShaderProgram::set_uniform(const char* name, glm::vec4 vector)
     glUseProgram(program);
     GLint location = glGetUniformLocation(program, name);
     if( location == -1 ) {
-        printf("[ShaderProgram::set_uniform] failed to find uniform vec4 '%s'\n", name);
+        //printf("[ShaderProgram::set_uniform] failed to find uniform vec4 '%s'\n", name);
         return false;
     }
 
@@ -181,7 +220,7 @@ bool ShaderProgram::set_uniform(const char* name, glm::mat4& matrix)
     glUseProgram(program);
     GLint location = glGetUniformLocation(program, name);
     if( location == -1 ) {
-        printf("[ShaderProgram::set_uniform] failed to find uniform mat4 '%s'\n", name);
+        //printf("[ShaderProgram::set_uniform] failed to find uniform mat4 '%s'\n", name);
         return false;
     }
 
