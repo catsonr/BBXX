@@ -3,6 +3,9 @@
 
 #include <SDL3/SDL.h>
 
+#define SET_MINIMUM_WINDOW_SIZE_ON_INIT true
+#define ALWAYS_ON_TOP true
+
 struct WindowState
 {
     /* PUBLIC MEMBERS */
@@ -16,7 +19,9 @@ struct WindowState
     const char* WINDOW_TITLE { "BBXX game engine <3" };
     SDL_WindowFlags windowflags =
         //SDL_WINDOW_FULLSCREEN |
-        //SDL_WINDOW_ALWAYS_ON_TOP |
+#ifdef ALWAYS_ON_TOP
+        SDL_WINDOW_ALWAYS_ON_TOP |
+#endif // ALWAYS_ON_TOP
         SDL_WINDOW_OPENGL |
         SDL_WINDOW_HIGH_PIXEL_DENSITY |
         SDL_WINDOW_RESIZABLE |

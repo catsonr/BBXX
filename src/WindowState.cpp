@@ -11,7 +11,8 @@ bool WindowState::init()
         return false;
     }
 
-    SDL_SetWindowMinimumSize(window, WINDOW_WIDTH_MIN, WINDOW_HEIGHT_MIN);
+    if( SET_MINIMUM_WINDOW_SIZE_ON_INIT )
+        SDL_SetWindowMinimumSize(window, WINDOW_WIDTH_MIN, WINDOW_HEIGHT_MIN);
 
     return true;
 }

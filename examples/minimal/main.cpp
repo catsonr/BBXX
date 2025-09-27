@@ -4,6 +4,7 @@
 
 #include <BBXX/BBXX.h>
 BBXX bbxx;
+float t = 0.0f;
 
 /* This function runs once at startup. */
 SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[])
@@ -27,6 +28,10 @@ SDL_AppResult SDL_AppEvent(void *appstate, SDL_Event *event)
 SDL_AppResult SDL_AppIterate(void *appstate)
 {
     bbxx.iterate();
+    
+    bbxx.glstate.shaderprograms.back().set_uniform("u_t", t);
+    t += 0.001f;
+
     bbxx.draw();
 
     // return SDL_APP_SUCCESS to go to SDL_AppQuit()
