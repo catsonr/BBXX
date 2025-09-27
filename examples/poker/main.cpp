@@ -5,9 +5,13 @@
 #include <BBXX/BBXX.h>
 BBXX bbxx;
 
+#include "PokerScreen.h"
+
 /* This function runs once at startup. */
 SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[])
 {
+    bbxx.screenstate.screens.emplace_back(std::make_unique<PokerScreen>(bbxx.bxctx));
+
     return bbxx.init();
 }
 
@@ -21,7 +25,6 @@ SDL_AppResult SDL_AppEvent(void *appstate, SDL_Event *event)
 SDL_AppResult SDL_AppIterate(void *appstate)
 {
     bbxx.iterate();
-    
     bbxx.draw();
 
     // return SDL_APP_SUCCESS to go to SDL_AppQuit()

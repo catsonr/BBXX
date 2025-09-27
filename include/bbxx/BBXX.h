@@ -9,6 +9,9 @@
 #include <BBXX/ImGuiState.h>
 #include <BBXX/AudioState.h>
 #include <BBXX/FileSystemState.h>
+#include <BBXX/ScreenState.h>
+
+#include <BEATBOXX/BXCTX.h>
 
 struct BBXX
 {
@@ -20,6 +23,9 @@ struct BBXX
     ImGuiState imguistate;
     AudioState audiostate;
     FileSystemState filesystemstate;
+    ScreenState screenstate;
+    
+    BXCTX bxctx { inputstate };
     
     /* PUBLIC METHODS */
 

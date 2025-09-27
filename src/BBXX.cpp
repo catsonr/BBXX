@@ -18,6 +18,7 @@ SDL_AppResult BBXX::init()
     if( !glstate.init(windowstate.window, filesystemstate) ) return SDL_APP_FAILURE;
     if( !imguistate.init(windowstate.window, glstate.gl) ) return SDL_APP_FAILURE;
     if( !audiostate.init() ) return SDL_APP_FAILURE;
+    if( !screenstate.init() ) return SDL_APP_FAILURE;
     
     printf("[BBXX::init] initialization successful!\n");
     
@@ -29,6 +30,8 @@ void BBXX::iterate()
     windowstate.iterate();
     audiostate.iterate();
     glstate.iterate(filesystemstate);
+    
+    screenstate.iterate();
 
     inputstate.iterate(); // should be called last
 }
@@ -37,6 +40,8 @@ void BBXX::draw()
 {
     glstate.draw(windowstate.window, windowstate.w, windowstate.h);
     //imguistate.draw();
+    
+    screenstate.draw();
 
     SDL_GL_SwapWindow(windowstate.window);
 }
@@ -51,6 +56,8 @@ SDL_AppResult BBXX::handle_event(const SDL_Event* event)
     
     inputstate.handle_event(event); // should be called first
     imguistate.handle_event(event);
+    
+    screenstate.handle_event(event);
 
     return SDL_APP_CONTINUE;
 }
