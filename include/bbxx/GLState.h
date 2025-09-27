@@ -5,8 +5,9 @@
 #include <BBXX/ShaderProgram.h>
 
 #include <SDL3/SDL.h>
-
 #include <glm/glm.hpp>
+
+#include <vector>
 
 struct GLState
 {
@@ -25,12 +26,12 @@ struct GLState
     float camera_far { 100.0f };
     float camera_aspect_ratio { 1.0f };
     
+    std::vector<ShaderProgram> shaderprograms;
+    
     /* PUBLIC METHODS */
     
-    glm::mat4 m_model { 1.0 };
-    ShaderProgram shaderprogram { "shaders/shaderprogram.vert", "shaders/shaderprogram.frag" };
-
     bool init(SDL_Window* window, FileSystemState& filesystemstate);
+    void iterate(const FileSystemState& filesystemstate);
     void draw(SDL_Window* window, int w, int h);
     /* sets view-projection matrix based on current camera settings, as well as screen width and height (for aspect ratio) */
     void set_mVP(int w, int h);

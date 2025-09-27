@@ -23,6 +23,7 @@ struct ShaderProgram
 {
     /* CONSTRUCTORS */
     
+    ShaderProgram() = delete;
     ShaderProgram(const char* vertex_assets_path, const char* fragment_assets_path) :
         vertex_assets_path(vertex_assets_path),
         fragment_assets_path(fragment_assets_path)
@@ -36,8 +37,11 @@ struct ShaderProgram
     bool reload_requested { false };
 
     /* PUBLIC METHODS */
+
     bool init(FileSystemState& filesystemstate);
-    void request_reload() { reload_requested = true; }
+    /* tells BBXX to reload on next iterate() */
+    void request_reload();
+    /* recompiles shaders */
     bool reload(const FileSystemState& filesystemstate);
     void draw();
     

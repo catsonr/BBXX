@@ -28,13 +28,9 @@ void BBXX::iterate()
 {
     windowstate.iterate();
     audiostate.iterate();
+    glstate.iterate(filesystemstate);
 
     inputstate.iterate(); // should be called last
-    
-    if( glstate.shaderprogram.reload_requested )
-        if( glstate.shaderprogram.reload(filesystemstate) ) {
-            printf("[BBXX::iterate] shader program reloaded!\n");
-        }
 }
 
 void BBXX::draw()

@@ -31,12 +31,18 @@ bool GLState::init(SDL_Window* window, FileSystemState& filesystemstate)
     }
 #endif
 
-    if( !shaderprogram.init(filesystemstate) ) {
-        printf("[GLState::init] failed to initialize shader program!\n");
-        return false;
-    }
-
     return true;
+}
+
+void GLState::iterate(const FileSystemState& filesystemstate)
+{
+    for( ShaderProgram& shaderprogram : shaderprograms)
+    {
+        if( shaderprogram.reload_requested )
+        {
+            shaderprogram.reload(filesystemstate);
+        }
+    }
 }
 
 void GLState::draw(SDL_Window* window, int w, int h)
@@ -46,13 +52,17 @@ void GLState::draw(SDL_Window* window, int w, int h)
     glClearColor(0.2, 0.2, 1.0, 1.0);
     glClear(GL_COLOR_BUFFER_BIT);
     
-    shaderprogram.set_uniform("u_mVP", m_VP);
-    shaderprogram.set_uniform("u_mModel", m_model);
+    // TODO: support transparency
+    
+    // TEMP! find place to store model matrices
+    glm::mat4 model { 1.0f };
 
-    glm::vec2 iResolution { w, h };
-    shaderprogram.set_uniform("u_iResolution", iResolution);
-
-    shaderprogram.draw();
+    for( ShaderProgram& s : shaderprograms )
+    {
+        s.set_uniform("u_mVP", m_VP);
+        s.set_uniform("u_mModel", model);
+        s.draw();
+    }
 }
 
 void GLState::set_mVP(int w, int h)

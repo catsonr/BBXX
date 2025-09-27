@@ -32,7 +32,7 @@ struct LiveFile
 
     fs::path path;
     std::function<void()> callback;
-};
+}; // LiveFile
 
 struct FileSystemState; // forward declare
 
@@ -51,7 +51,7 @@ public:
     AssetsListener(FileSystemState& filesystemstate) : filesystemstate(filesystemstate) {}
 
     void handleFileAction(efsw::WatchID watchid, const std::string& dir, const std::string& filename, efsw::Action action, std::string oldFilename) override;
-};
+}; // AssetsListener
 
 struct FileSystemState
 {
@@ -70,7 +70,7 @@ struct FileSystemState
     the "assets" one is needed--but cmake puts everything in build (and vs code cmaketools puts it in build/Debug)
 */
 #ifndef __EMSCRIPTEN__
-    fs::path assets_dir { "../examples/minimal/assets" };
+    fs::path assets_dir { "../../examples/minimal/assets" };
 #else
     fs::path assets_dir { "assets" };
 #endif

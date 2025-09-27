@@ -47,15 +47,22 @@ bool ShaderProgram::init(FileSystemState& filesystemstate)
     return true;
 }
 
+void ShaderProgram::request_reload()
+{
+    reload_requested = true;
+}
+
 bool ShaderProgram::reload(const FileSystemState& filesystemstate)
 {
+    reload_requested = false;
+
     const fs::path vertex_shader_path   = filesystemstate.get_path(vertex_assets_path);
     const fs::path fragment_shader_path = filesystemstate.get_path(fragment_assets_path);
     
     std::string vertex_src   = filesystemstate.read_file(vertex_shader_path).c_str();
     std::string fragment_src = filesystemstate.read_file(fragment_shader_path).c_str();
     
-    vertex_src = fix_headers(vertex_src);
+    vertex_src   = fix_headers(vertex_src);
     fragment_src = fix_headers(fragment_src);
     
     GLuint new_program = create_program(vertex_src.c_str(), fragment_src.c_str());
@@ -64,10 +71,11 @@ bool ShaderProgram::reload(const FileSystemState& filesystemstate)
         return false;
     }
     
+    printf("[ShaderProgram::reload] reloaded!\n");
+    
     glDeleteProgram(program);
 
     program = new_program;
-    reload_requested = false;
 
     return true;
 }

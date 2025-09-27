@@ -8,7 +8,13 @@ BBXX bbxx;
 /* This function runs once at startup. */
 SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[])
 {
-    return bbxx.init();
+    bbxx.init();
+    
+    // create shader program
+    bbxx.glstate.shaderprograms.emplace_back( "shaders/shaderprogram.vert", "shaders/shaderprogram.frag" );
+    bbxx.glstate.shaderprograms.back().init(bbxx.filesystemstate);
+    
+    return SDL_APP_CONTINUE;
 }
 
 /* This function runs when a new event (mouse input, keypresses, etc) occurs. */
