@@ -2,12 +2,33 @@
 #define SHADERPROGRAM_H
 
 #include <BBXX/FileSystemState.h>
-
 #include <BBXX/gl.h>
+
+#include <BEATBOXX/GLState/Uniform.h>
 
 #include <glm/glm.hpp>
 
 #include <vector>
+#include <variant>
+
+using UniformType = std::variant<int, float, glm::vec2, glm::vec3, glm::vec4, glm::mat4>;
+
+struct Uniform
+{
+    /* CONSTRUCTORS */
+
+    Uniform() = delete;
+    Uniform(const char* name, UniformType value) :
+        name(name),
+        value(value)
+    {}
+
+    /* PUBLIC MEMBERS */
+    
+    const char* name;
+    UniformType value;
+
+}; // Uniform
 
 const std::vector<float> unit_quad {
     -1.0, -1.0, 0.0,
@@ -35,6 +56,8 @@ struct ShaderProgram
     GLuint program { 0 };
     GLuint vao, vbo;
     bool reload_requested { false };
+    
+    std::vector<Uniform> uniforms;
 
     /* PUBLIC METHODS */
 

@@ -2,7 +2,8 @@
 #define GLSTATE_H
 
 #include <BBXX/FileSystemState.h>
-#include <BBXX/ShaderProgram.h>
+
+#include <BEATBOXX/GLState/ShaderProgram.h>
 
 #include <SDL3/SDL.h>
 #include <glm/glm.hpp>
@@ -25,6 +26,8 @@ struct GLState
     float camera_near { 0.1f };
     float camera_far { 100.0f };
     float camera_aspect_ratio { 1.0f };
+    
+    /* BEATBOXX CLIENT MEMBERS */
     
     std::vector<ShaderProgram> shaderprograms;
     

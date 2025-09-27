@@ -70,7 +70,7 @@ struct FileSystemState
     the "assets" one is needed--but cmake puts everything in build (and vs code cmaketools puts it in build/Debug)
 */
 #ifndef __EMSCRIPTEN__
-    fs::path assets_dir { "../../examples/minimal/assets" };
+    fs::path assets_dir { "../examples/minimal/assets" };
 #else
     fs::path assets_dir { "assets" };
 #endif

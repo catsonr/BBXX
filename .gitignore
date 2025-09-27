@@ -1,3 +1,7 @@
+# directories
 *build*/
 emsdk/
+docs/local/
+
+# files
 .DS_Store

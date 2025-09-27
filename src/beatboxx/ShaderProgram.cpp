@@ -1,4 +1,4 @@
-#include <BBXX/ShaderProgram.h>
+#include <BEATBOXX/GLState/ShaderProgram.h>
 
 #include <glm/gtc/type_ptr.hpp>
 
