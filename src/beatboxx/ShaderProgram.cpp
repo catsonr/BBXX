@@ -44,6 +44,8 @@ bool ShaderProgram::init(FileSystemState& filesystemstate)
     if( !filesystemstate.watching_file(fragment_shader_path) )
         filesystemstate.watch_file(fragmentshader_livefile);
     
+    source_uniforms();
+    
     return true;
 }
 
@@ -74,8 +76,9 @@ bool ShaderProgram::reload(const FileSystemState& filesystemstate)
     printf("[ShaderProgram::reload] reloaded!\n");
     
     glDeleteProgram(program);
-
     program = new_program;
+    
+    source_uniforms();
 
     return true;
 }
@@ -156,8 +159,151 @@ GLuint ShaderProgram::create_program(const char* VERTEX_SOURCECODE, const char* 
     return program;
 }
 
+void ShaderProgram::source_uniforms()
+{
+    printf("[ShaderProgram::source_uniforms] sourcing uniforms ...\n");
+
+    GLint count;
+    glGetProgramiv(program, GL_ACTIVE_UNIFORMS, &count);
+    for( int i = 0; i < count; i++ )
+    {
+        char name[512];
+        GLenum type;
+        glGetActiveUniform(program, (GLuint)i, 100, NULL, NULL, &type, name);
+        
+        if( uniform_name_is_unique(name) ) {
+            printf("[ShaderProgram::source_uniforms] found '%s' of type %i\n", name, type);
+            
+            GLint location = glGetUniformLocation(program, name);
+            if( location != -1 )
+                uniforms.push_back({name, type, location});
+            else
+                printf("[ShaderProgram::source_uniforms] unable to find location for uniform '%s'! ignorning ...\n", name);
+        }
+    }
+}
+
+void ShaderProgram::set_uniforms()
+{
+    //printf("[ShaderProgram::set_uniforms] setting uniforms ...\n");
+
+    for( const Uniform& uniform : uniforms )
+    {
+        if( uniform.value != nullptr )
+            set_uniform(uniform);
+        else
+            printf("[ShaderProgram::set_uniforms] cannot set unattached uniform '%s'! ignoring ...\n", uniform.name.c_str());
+    }
+}
+
+bool ShaderProgram::uniform_name_is_unique(const char* name) const
+{
+    for( const Uniform& uniform : uniforms )
+    {
+        if( uniform.name == name ) return false;
+    } 
+    
+    return true;
+}
+
+bool ShaderProgram::uniform_attach(const char* name, const void* ptr)
+{
+    for( Uniform& uniform : uniforms )
+    {
+        if( uniform.name == name )
+        {
+            uniform.value = ptr;
+            
+            printf("[ShaderProgram::uniform_attach] uniform '%s' attached!\n", name);
+            return true;
+        }
+    }
+    
+    printf("[ShaderProgram::uniform_attach] could not attach; uniform '%s' is not being used!\n", name);
+    return false;
+}
 
 
+
+bool ShaderProgram::set_uniform(const Uniform& uniform)
+{
+    if( uniform.value == nullptr ) {
+        printf("[ShaderProgram::set_uniform] cannot set uniform '%s'. please attach a variable!\n", uniform.name.c_str());
+        return false;
+    }
+    
+    switch (uniform.gl_type)
+    {
+        case GL_INT:
+        {
+            const int* ptr = static_cast<const int*>(uniform.value);
+            glUniform1i(uniform.location, *ptr);
+            return true;
+            break;
+        }
+
+        case GL_FLOAT:
+        {
+            const float* ptr = static_cast<const float*>(uniform.value);
+            glUniform1f(uniform.location, *ptr);
+            return true;
+            break;
+        }
+
+        case GL_FLOAT_VEC2:
+        {
+            const glm::vec2* ptr = static_cast<const glm::vec2*>(uniform.value);
+            glUniform2fv(uniform.location, 1, glm::value_ptr(*ptr));
+            return true;
+            break;
+        }
+
+        case GL_FLOAT_VEC3:
+        {
+            const glm::vec3* ptr = static_cast<const glm::vec3*>(uniform.value);
+            glUniform3fv(uniform.location, 1, glm::value_ptr(*ptr));
+            return true;
+            break;
+        }
+
+        case GL_FLOAT_VEC4:
+        {
+            const glm::vec4* ptr = static_cast<const glm::vec4*>(uniform.value);
+            glUniform4fv(uniform.location, 1, glm::value_ptr(*ptr));
+            return true;
+            break;
+        }
+
+        case GL_FLOAT_MAT2:
+        {
+            const glm::mat2* ptr = static_cast<const glm::mat2*>(uniform.value);
+            glUniformMatrix2fv(uniform.location, 1, GL_FALSE, glm::value_ptr(*ptr));
+            return true;
+            break;
+        }
+
+        case GL_FLOAT_MAT3:
+        {
+            const glm::mat3* ptr = static_cast<const glm::mat3*>(uniform.value);
+            glUniformMatrix3fv(uniform.location, 1, GL_FALSE, glm::value_ptr(*ptr));
+            return true;
+            break;
+        }
+
+        case GL_FLOAT_MAT4:
+        {
+            const glm::mat4* ptr = static_cast<const glm::mat4*>(uniform.value);
+            glUniformMatrix4fv(uniform.location, 1, GL_FALSE, glm::value_ptr(*ptr));
+            return true;
+            break;
+        }
+    }
+
+    printf("[ShaderProgram::set_uniform] uniform of type '%i' not supported!\n", uniform.gl_type);
+    return false;
+}
+
+/*
 bool ShaderProgram::set_uniform(const char* name, int value)
 {
     glUseProgram(program);
@@ -235,3 +381,4 @@ bool ShaderProgram::set_uniform(const char* name, glm::mat4& matrix)
     glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
     return true;
 }
+*/

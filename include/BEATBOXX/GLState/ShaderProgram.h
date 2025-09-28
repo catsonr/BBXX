@@ -11,24 +11,6 @@
 #include <vector>
 #include <variant>
 
-using UniformType = std::variant<int, float, glm::vec2, glm::vec3, glm::vec4, glm::mat4>;
-
-struct Uniform
-{
-    /* CONSTRUCTORS */
-
-    Uniform() = delete;
-    Uniform(const char* name, UniformType value) :
-        name(name),
-        value(value)
-    {}
-
-    /* PUBLIC MEMBERS */
-    
-    const char* name;
-    UniformType value;
-
-}; // Uniform
 
 const std::vector<float> unit_quad {
     -1.0, -1.0, 0.0,
@@ -89,7 +71,17 @@ struct ShaderProgram
     */
     GLuint create_program(const char* VERTEX_SOURCECODE, const char* FRAGMENT_SOURCECODE);
     
-    //bool set_uniform(const char* name, bool value);
+    /* finds all uniforms used in shaderprogram and adds them to vector uniforms */
+    void source_uniforms();
+    /* sets all uniforms to their values defined by vector uniforms */
+    void set_uniforms();
+    /* returns true if the given name is already being used, and false otherwise */
+    bool uniform_name_is_unique(const char* name) const;
+    /* */
+    bool uniform_attach(const char* name, const void* ptr);
+    
+private:
+    bool set_uniform(const Uniform& uniform);
     bool set_uniform(const char* name, int value);
     bool set_uniform(const char* name, float value);
     bool set_uniform(const char* name, glm::vec2 value);

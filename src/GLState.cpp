@@ -59,8 +59,7 @@ void GLState::draw(SDL_Window* window, int w, int h)
 
     for( ShaderProgram& s : shaderprograms )
     {
-        s.set_uniform("u_mVP", m_VP);
-        s.set_uniform("u_mModel", model);
+        s.set_uniforms();
         s.draw();
     }
 }
