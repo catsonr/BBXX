@@ -7,13 +7,17 @@ BBXX bbxx;
 glm::mat4 model { 1.0f };
 float t { 0.0f };
 
+#include <glm/ext.hpp>
+
 /* This function runs once at startup. */
 SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[])
 {
     bbxx.init();
     
+    model = glm::scale(model, glm::vec3(1.5, 1.0, 1.0));
+    
     // create shader program
-    bbxx.glstate.shaderprograms.emplace_back( "shaders/shaderprogram.vert", "shaders/shaderprogram.frag" );
+    bbxx.glstate.shaderprograms.emplace_back( "shaders/shaderprogram.vert", "shaders/seychelles.frag" );
     ShaderProgram& shaderprogram = bbxx.glstate.shaderprograms.back();
 
     // initialize shader program

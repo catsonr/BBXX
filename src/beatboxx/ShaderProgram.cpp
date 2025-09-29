@@ -219,7 +219,7 @@ bool ShaderProgram::uniform_attach(const char* name, const void* ptr)
         }
     }
     
-    printf("[ShaderProgram::uniform_attach] could not attach; uniform '%s' is not being used!\n", name);
+    printf("[ShaderProgram::uniform_attach] could not attach -- uniform '%s' is not being used! ignoring ...\n", name);
     return false;
 }
 
