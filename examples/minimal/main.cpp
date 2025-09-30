@@ -14,10 +14,10 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[])
 {
     bbxx.init();
     
-    model = glm::scale(model, glm::vec3(1.5, 1.0, 1.0));
+    model = glm::scale(model, glm::vec3(100, 100, 1.0));
     
     // create shader program
-    bbxx.glstate.shaderprograms.emplace_back( "shaders/shaderprogram.vert", "shaders/seychelles.frag" );
+    bbxx.glstate.shaderprograms.emplace_back( "shaders/shaderprogram.vert", "shaders/shaderprogram.frag" );
     ShaderProgram& shaderprogram = bbxx.glstate.shaderprograms.back();
 
     // initialize shader program

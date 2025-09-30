@@ -3,8 +3,8 @@
 
 #include <SDL3/SDL.h>
 
-#define SET_MINIMUM_WINDOW_SIZE_ON_INIT true
-#define ALWAYS_ON_TOP true
+#define SET_MINIMUM_WINDOW_SIZE_ON_INIT false
+#define ALWAYS_ON_TOP false
 
 struct WindowState
 {

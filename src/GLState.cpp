@@ -68,9 +68,13 @@ void GLState::set_mVP(int w, int h)
 {
     camera_aspect_ratio = static_cast<float>(w) / h;
     
-    m_view = glm::lookAt(camera_pos, camera_target, camera_up);
-    // TODO: use ortho !
-    m_proj = glm::perspective(glm::radians(camera_fov), camera_aspect_ratio, camera_near, camera_far);
+    // perspective
+    //m_view = glm::lookAt(camera_pos, camera_target, camera_up);
+    //m_proj = glm::perspective(glm::radians(camera_fov), camera_aspect_ratio, camera_near, camera_far);
+
+    // orthographic
+    m_view = glm::mat4(1.0f);
+    m_proj = glm::ortho(-w/2.0f, w/2.0f, -h/2.0f, h/2.0f, -1.0f, 1.0f);
     
     m_VP = m_proj * m_view;
 }
