@@ -27,6 +27,12 @@ SDL_AppResult BBXX::init()
 
 void BBXX::iterate()
 {
+    // TEMP!! enter/exit full screen with left bracket key
+    // note that this is exactly why inputstate.iterate() should be the last call in iterate(),
+    // all input events since the last inputstate.iterate() were collected and belong to this frame
+    if( inputstate.key_pressed(SDL_SCANCODE_LEFTBRACKET) )
+        windowstate.fullscreen();
+
     windowstate.iterate();
     audiostate.iterate();
     glstate.iterate(filesystemstate);

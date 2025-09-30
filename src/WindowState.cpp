@@ -23,3 +23,11 @@ void WindowState::iterate()
     SDL_GetWindowSize(window, &w_l, &h_l);
     ds = SDL_GetWindowDisplayScale(window);
 }
+
+void WindowState::fullscreen()
+{
+    if( SDL_SetWindowFullscreen(window, !is_fullscreen) )
+        is_fullscreen = !is_fullscreen;
+    else 
+        printf("[WindowState::fullscreen] failed to enter/exit full screen! ignoring ...\n");
+}
