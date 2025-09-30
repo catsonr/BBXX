@@ -15,6 +15,5 @@ there are a number of features planned for **BBXX**. they are listed below in ro
 - [ ] audio playback
 - [ ] accurate text rendering
 - [ ] some screenstate/scene system
-- [ ] versioning system
 
 these are essentially requirements, and should take priority over other features

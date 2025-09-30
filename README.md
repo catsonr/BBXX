@@ -54,6 +54,10 @@ now you can compile like normal! (but note the *emcmake* command)
 
 ## run BBXX
 
-`./build/Debug/bbxx`
+cmake will automatically compile all example projects in `examples/`
 
-or if compiled with emscripten, open `build/bbxx.html`
+you can run the miminal example with:
+
+`./build/minimal`
+
+or if compiled with emscripten, `emrun build/minimal`
