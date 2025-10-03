@@ -16,7 +16,7 @@ struct Screen
     BXCTX& bxctx;
 
     /* PUBLIC METHODS */
-
+    
     bool ScreenState__inits();
     void ScreenState__handles_event(const SDL_Event* event);
     void ScreenState__iterates();

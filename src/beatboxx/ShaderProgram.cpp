@@ -35,10 +35,7 @@ bool ShaderProgram::init(FileSystemState& filesystemstate)
     
     LiveFile fragmentshader_livefile {
         fragment_shader_path,
-        [this]() {
-            printf("fragment shader changed!!! requesting reload ...\n");
-            this->request_reload();
-        }
+        [this]() { this->request_reload(); }
     };
     
     if( !filesystemstate.watching_file(fragment_shader_path) )
@@ -161,7 +158,7 @@ GLuint ShaderProgram::create_program(const char* VERTEX_SOURCECODE, const char* 
 
 void ShaderProgram::source_uniforms()
 {
-    printf("[ShaderProgram::source_uniforms] sourcing uniforms ...\n");
+    //printf("[ShaderProgram::source_uniforms] sourcing uniforms ...\n");
 
     GLint count;
     glGetProgramiv(program, GL_ACTIVE_UNIFORMS, &count);
@@ -172,7 +169,7 @@ void ShaderProgram::source_uniforms()
         glGetActiveUniform(program, (GLuint)i, 100, NULL, NULL, &type, name);
         
         if( uniform_name_is_unique(name) ) {
-            printf("[ShaderProgram::source_uniforms] found '%s' of type %i\n", name, type);
+            //printf("[ShaderProgram::source_uniforms] found '%s' of type %i\n", name, type);
             
             GLint location = glGetUniformLocation(program, name);
             if( location != -1 )

@@ -12,7 +12,7 @@ see **https://github.com/catsonr/beatboxx** for version 1.0
 
 ## compiling
 
-**BBXX** is cross platform, meaning it work on window, macos, linux, and your favorite *web browser*.
+**BBXX** is cross platform, meaning it supports window, macos, linux, and your favorite *web browser*.
 
 compiling for desktop is easier than compiling for web, but both targets are considered first class
 citizens and will function (almost) exactly the same
@@ -60,4 +60,4 @@ you can run the miminal example with:
 
 `./build/minimal`
 
-or if compiled with emscripten, `emrun build/minimal`
+or if compiled with emscripten, `emrun build/minimal.html`
