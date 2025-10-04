@@ -12,9 +12,9 @@ float t { 0.0f };
 /* This function runs once at startup. */
 SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[])
 {
-    bbxx.init();
+    if( bbxx.init() == SDL_APP_FAILURE ) return SDL_APP_FAILURE;
     
-    model = glm::scale(model, glm::vec3(100, 100, 1.0));
+    model = glm::scale(model, glm::vec3(200, 200, 1.0));
     
     // create shader program
     bbxx.glstate.shaderprograms.emplace_back( "shaders/shaderprogram.vert", "shaders/shaderprogram.frag" );

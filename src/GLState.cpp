@@ -50,7 +50,16 @@ void GLState::draw(SDL_Window* window, int w, int h)
     set_mVP(w, h);
     glViewport(0, 0, w, h);
     glClearColor(0.2, 0.2, 1.0, 1.0);
+    glDisable(GL_SCISSOR_TEST);
     glClear(GL_COLOR_BUFFER_BIT);
+    
+    glEnable(GL_SCISSOR_TEST);
+    glScissor(0, 0, w/2, h/2);
+    glClearColor(0.7, 0.5, 0.3, 1.0);
+    glClear(GL_COLOR_BUFFER_BIT);
+    glDisable(GL_SCISSOR_TEST);
+    
+    glViewport(0, 0, w/2, h/2);
     
     // TODO: support transparency
     
