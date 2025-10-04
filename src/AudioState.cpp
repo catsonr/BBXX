@@ -36,7 +36,8 @@ void AudioState::iterate()
 
 void AudioState::cleanup()
 {
-    // ma_sound_uninit()
+    for( ma_sound& sound : sounds )
+        ma_sound_uninit(&sound);
 
     ma_engine_uninit(&engine);
 }

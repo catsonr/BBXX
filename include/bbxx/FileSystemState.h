@@ -64,16 +64,12 @@ struct FileSystemState
     /* the absolute path where BBXX is run from */
     fs::path base_path { SDL_GetBasePath() };
     /* the location of the assets folder, relative to base_path */
-/*
-    these macros are just a development nicety, and i should really find a
-    better solution. in full production this would not be neccessary--only
-    the "assets" one is needed--but cmake puts everything in build (and vs code cmaketools puts it in build/Debug)
-*/
-#ifndef __EMSCRIPTEN__
-    fs::path assets_dir { "../examples/minimal/assets" };
+#ifdef ASSETS_DIR
+    fs::path assets_dir { ASSETS_DIR };
 #else
     fs::path assets_dir { "assets" };
-#endif
+#endif 
+
     /*
         the absolute path to the actual assets folder on disk
         this is calculated at init() time using base_path / assets_dir
