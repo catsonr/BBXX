@@ -7,6 +7,8 @@
 
 #include <vector>
 
+#define INITIAL_VOLUME 1.0
+
 struct AudioState
 {
     /* PUBLIC MEMBERS */

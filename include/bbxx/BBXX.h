@@ -25,7 +25,7 @@ struct BBXX
     FileSystemState filesystemstate;
     ScreenState screenstate;
     
-    BXCTX bxctx { inputstate };
+    BXCTX bxctx { audiostate, filesystemstate, inputstate };
     
     /* PUBLIC METHODS */
 

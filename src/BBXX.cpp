@@ -44,7 +44,7 @@ void BBXX::iterate()
 
 void BBXX::draw()
 {
-    glstate.draw(windowstate.window, windowstate.w, windowstate.h);
+    glstate.draw(windowstate.window, windowstate.w, windowstate.h, windowstate.ds);
     //imguistate.draw();
     
     screenstate.draw();

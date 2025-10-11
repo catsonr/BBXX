@@ -8,24 +8,13 @@
 
 bool AudioState::init(const FileSystemState& filesystemstate)
 {
-    ma_result result;
-    result = ma_engine_init(NULL, &engine);
-    if( result != MA_SUCCESS ) {
+    if( ma_engine_init(NULL, &engine) != MA_SUCCESS ) {
         printf("[AudioState::init] failed to initialize miniaudio!\n");
         return false;
     }
     
-    sounds.emplace_back();
-    ma_sound& sound = sounds.back();
-
-    result = ma_sound_init_from_file(&engine, filesystemstate.get_path("sounds/Galaxy.mp3").c_str(), 0, NULL, NULL, &sound);
-    if( result != MA_SUCCESS ) {
-        printf("[AudioState::init] failed to init Galaxy.mp3 as a sound!\n");
-        return false;
-    }
+    ma_engine_set_volume(&engine, INITIAL_VOLUME);
     
-    ma_sound_start(&sound);
-
     return true;
 }
 

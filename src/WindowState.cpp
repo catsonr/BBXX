@@ -22,6 +22,8 @@ void WindowState::iterate()
     SDL_GetWindowSizeInPixels(window, &w, &h);
     SDL_GetWindowSize(window, &w_l, &h_l);
     ds = SDL_GetWindowDisplayScale(window);
+    
+    //printf("w=%d h=%d\nw_l=%dh_l=%d (ds=%f)\n", w, h, w_l, h_l, ds);
 }
 
 void WindowState::fullscreen()

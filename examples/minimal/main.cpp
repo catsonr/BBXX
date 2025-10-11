@@ -14,8 +14,6 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[])
 {
     if( bbxx.init() == SDL_APP_FAILURE ) return SDL_APP_FAILURE;
     
-    model = glm::scale(model, glm::vec3(200, 200, 1.0));
-    
     // create shader program
     bbxx.glstate.shaderprograms.emplace_back( "shaders/shaderprogram.vert", "shaders/shaderprogram.frag" );
     ShaderProgram& shaderprogram = bbxx.glstate.shaderprograms.back();
@@ -41,6 +39,8 @@ SDL_AppResult SDL_AppEvent(void *appstate, SDL_Event *event)
 /* This function runs once per frame, and is the heart of the program. */
 SDL_AppResult SDL_AppIterate(void *appstate)
 {
+    model = glm::scale({ 1.0f }, glm::vec3(bbxx.windowstate.h / 4, bbxx.windowstate.h / 4, 1.0));
+
     bbxx.iterate();
     bbxx.draw();
     

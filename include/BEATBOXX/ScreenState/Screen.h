@@ -9,10 +9,14 @@ struct Screen
 {
     /* CONSTRUCTORS */
     Screen() = delete;
-    Screen(BXCTX& bxctx) : bxctx(bxctx) {}
+    Screen(const char* name, BXCTX& bxctx) :
+        name(name),
+        bxctx(bxctx)
+    {}
 
     /* PUBLIC MEMBERS */
     
+    const char* name;
     BXCTX& bxctx;
 
     /* PUBLIC METHODS */

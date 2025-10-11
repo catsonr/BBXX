@@ -21,11 +21,11 @@ struct GLState
     glm::vec3 camera_pos { 0, 0, 4 };
     glm::vec3 camera_target { 0, 0, 0 };
     glm::vec3 camera_up { 0, 1, 0 };
-    /* the camera field of view (in degrees!) */
-    float camera_fov { 45.0f };
-    float camera_near { 0.1f };
-    float camera_far { 100.0f };
-    float camera_aspect_ratio { 1.0f };
+    /* camera settings, only needed for projection */
+    //float camera_fov { 45.0f };
+    //float camera_near { 0.1f };
+    //float camera_far { 100.0f };
+    //float camera_aspect_ratio { 1.0f };
     
     /* BEATBOXX CLIENT MEMBERS */
     
@@ -35,7 +35,7 @@ struct GLState
     
     bool init(SDL_Window* window, FileSystemState& filesystemstate);
     void iterate(const FileSystemState& filesystemstate);
-    void draw(SDL_Window* window, int w, int h);
+    void draw(SDL_Window* window, int w, int h, float ds);
     /* sets view-projection matrix based on current camera settings, as well as screen width and height (for aspect ratio) */
     void set_mVP(int w, int h);
 }; // GLState

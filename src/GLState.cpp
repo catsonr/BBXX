@@ -45,27 +45,32 @@ void GLState::iterate(const FileSystemState& filesystemstate)
     }
 }
 
-void GLState::draw(SDL_Window* window, int w, int h)
+void GLState::draw(SDL_Window* window, int w, int h, float ds)
 {
-    set_mVP(w, h);
     glViewport(0, 0, w, h);
     glClearColor(0.2, 0.2, 1.0, 1.0);
     glDisable(GL_SCISSOR_TEST);
     glClear(GL_COLOR_BUFFER_BIT);
     
+    /*
+       the above gl instructions begin drawing to the screen
+       the below gl instructions make all shaderprograms run inside a white box,
+       with origin at bottom left
+       ahead of a blue background
+    */
+
+    int padding = 10 * ds;
+    
+    glViewport(padding, padding, w - padding*2, h - padding*2);
+    glScissor(padding, padding, w - padding*2, h - padding*2);
     glEnable(GL_SCISSOR_TEST);
-    glScissor(0, 0, w/2, h/2);
-    glClearColor(0.7, 0.5, 0.3, 1.0);
+    glClearColor(1.0, 1.0, 1.0, 1.0);
     glClear(GL_COLOR_BUFFER_BIT);
     glDisable(GL_SCISSOR_TEST);
-    
-    glViewport(0, 0, w/2, h/2);
-    
-    // TODO: support transparency
-    
-    // TEMP! find place to store model matrices
-    glm::mat4 model { 1.0f };
 
+    // TEMP! each shaderprogram should have its own model matrix...
+    glm::mat4 model { 1.0f };
+    set_mVP(w - padding*2, h - padding*2);
     for( ShaderProgram& s : shaderprograms )
     {
         s.set_uniforms();
@@ -75,7 +80,7 @@ void GLState::draw(SDL_Window* window, int w, int h)
 
 void GLState::set_mVP(int w, int h)
 {
-    camera_aspect_ratio = static_cast<float>(w) / h;
+    //camera_aspect_ratio = static_cast<float>(w) / h;
     
     // perspective
     //m_view = glm::lookAt(camera_pos, camera_target, camera_up);
@@ -84,6 +89,7 @@ void GLState::set_mVP(int w, int h)
     // orthographic
     m_view = glm::mat4(1.0f);
     m_proj = glm::ortho(-w/2.0f, w/2.0f, -h/2.0f, h/2.0f, -1.0f, 1.0f);
+    //m_proj = glm::ortho(0.0f, w / 1.0f, 0.0f, h / 1.0f, -1.0f, 1.0f);
     
     m_VP = m_proj * m_view;
 }

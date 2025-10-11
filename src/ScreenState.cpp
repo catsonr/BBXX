@@ -4,14 +4,25 @@ bool ScreenState::init()
 {
     bool failed = false;
     
+    int screen_count = screens.size();
+
+    printf("[ScreenState::init] initializing %d screen(s) ...\n", screen_count);
+    
     for( const auto& screen : screens )
     {
+        int i = 1;
         if( !screen->ScreenState__inits() )
         {
-            printf("[ScreenState::init] failed to initialize (a) screen\n");
+            printf("\t[%d/%d] failed to initialize screen '%s'\n", i, screen_count, screen->name);
             failed = true;
             break;
         }
+        else
+        {
+            printf("\t[%d/%d] initialized '%s'\n", i, screen_count, screen->name);
+        }
+        
+        i++;
     }
     
     if( failed ) printf("[ScreenState::init] failed to initialize all screens!\n");
