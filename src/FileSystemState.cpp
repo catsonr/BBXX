@@ -4,9 +4,16 @@ bool FileSystemState::init()
 {
     assets_path = base_path / assets_dir;
 
+    /*
+        yeah so currently BBXX requires an assets folder to exist to use filesystemstate (and thus to initialize)
+        for now this requirement is ignored
+        if this error message occurs, filesystemstate is useless!
+        TODO:
+            remove assets/ existance requirement
+    */
     if( !fs::exists(assets_path) ) {
-        printf("[FileSystemState::init] could not find assets folder at '%s'! (does it exist?)\n", assets_path.string().c_str());
-        return false;
+        printf("[FileSystemState::init] could not find assets folder at '%s'! (does it exist?)\tignoring ...\n", assets_path.string().c_str());
+        //return false;
     }
     
 #ifndef __EMSCRIPTEN__

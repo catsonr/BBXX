@@ -7,8 +7,8 @@
 struct AudioScreen : public Screen
 {
     AudioScreen(const char* name, BXCTX& bxctx) :
-    Screen(name, bxctx),
-    audiostate(bxctx.audiostate)
+        Screen(name, bxctx),
+        audiostate(bxctx.audiostate)
     {}
 
     AudioState& audiostate;
@@ -27,7 +27,7 @@ struct AudioScreen : public Screen
             return false;
         }
 
-        //ma_sound_start(&sound);
+        ma_sound_start(&sound);
         
         return true;
     }
